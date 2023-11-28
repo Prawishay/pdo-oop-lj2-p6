@@ -2,40 +2,36 @@
 include "db.php";
 
 $db = new Database();
-
-
-class Database {
-    private $host = 'localhost';
-    private $username = 'jouw_gebruikersnaam';
-    private $password = 'jouw_wachtwoord';
-    private $database = 'jouw_database';
-
-    private $conn;
-
-    public function __construct() {
-        try {
-            $this->conn = new PDO("mysql:host={$this->host};dbname={$this->database}", $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
-    }
-
-    public function insertStudent($voornaam, $achternaam, $email) {
-        try {
-            $sql = "INSERT INTO Students (voornaam, achternaam, email) VALUES (:voornaam, :achternaam, :email)";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':voornaam', $firstName);
-            $stmt->bindParam(':achternaam', $lastName);
-            $stmt->bindParam(':email', $email);
-            $stmt->execute();
-            echo "Student toegevoegd aan de database!";
-        } catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-    }
-}
-
-
-
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+    <tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>Password</th>
+        </tr>
+        <tr>
+    <?php $users = $db->selectOneUser(3); ?>
+        <td><?php echo $users['id'];?></td>
+        <td><?php echo $users['email'];?></td>
+        <td><?php echo $users['password'];?></td>
+    </tr>
+    </table>
+    <form method="POST">
+        <input type="text" name="email">
+        <input type="password" name="password">
+        <input type="submit">
+    </form>
+</body>
+</html>
+
+
+
