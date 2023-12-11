@@ -39,8 +39,25 @@ public function selectUser($id = null) {
     return $result;
 }
 
+public function updateUser(string $email, String $password, int $id){
+    $stmt = $this->pdo->prepare("UPDATE user SET email =?, password = ? WHERE id = ?");
+        $stmt->execute([$email, $password, $id]);
+}
+
+public function deleteUser(int $id) {
+    $stmt = $this->pdo->prepare("DELETE from user WHERE id = ?");
+    $stmt->execute([$id]);
+}
+
+public function register(string $naam, string $achternaam, string $geboortedatum,
+                    string $email, string $password) {
+    $stmt = $this->pdo->prepare("INSERT INTO users (naam, achternaam,
+    geboortedatum, email, wachtwoord) values (?,?,?,?)");
+    $stmt->execute([$naam, $achternaam, $geboortedatum, $email, $password]);
+}
 
 }
+
 
 ?>
 
