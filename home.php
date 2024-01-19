@@ -15,6 +15,18 @@ error_reporting(E_ALL);
         }  
     }
 
+  if (!isset($_SESSION['accountid'])) {
+        header('Location: login.php');
+        exit();
+    } else {
+        $id = $_SESSION['accountid'];
+    }
+    
+    if (isset($_POST['loguit'])) {
+        session_destroy();
+        header('Location: login.php');
+        exit();
+    }
 ?>
 
 
